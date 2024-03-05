@@ -48,5 +48,16 @@ def getLastID():
     else:
         return keyTuple[0]
     
-def runStats():
-    pass
+def retrieveData(query,numfields):
+    conn = sqlite3.connect("sudokustats.db") #creates, or accesses if already created, a SQL database in the same folder as these files.
+    cursor = conn.cursor()
+
+    cursor.execute(query)
+    returnTuple = cursor.fetchall()
+    
+    conn.commit()
+    conn.close()
+
+    returnList = [[item[i] for item in returnTuple] for i in range (numfields)]
+    
+    return list(returnList)

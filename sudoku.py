@@ -15,9 +15,9 @@ from solver import is_unique
 from exportExcel import saveExcel
 import os
 import sys
-def sudokuGen(event,removeN):
-    # original_stdout = sys.stdout
-    # sys.stdout = open(os.devnull, 'w')
+def sudokuGen(removeN):
+    original_stdout = sys.stdout
+    sys.stdout = open(os.devnull, 'w')
     # Get date and time Info
 
     runStartOverall = time.time()
@@ -131,5 +131,5 @@ def sudokuGen(event,removeN):
     # Call funciton to add run stats to the database.
     addRowDB([keyVal,runDate,triesSln,round(runTimeSln,3),loopcount,round(runTimePuzzle,3),round(runTimeOverall,3),removeN])
 
-    # sys.stdout = original_stdout
+    sys.stdout = original_stdout
     return df
