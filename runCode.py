@@ -5,11 +5,11 @@ from solver import backtrackSolver
 import pandas as pd
 lim = 55
 
-for i in range(10,lim,5):
-    print(f"running funciton for i = {i}")
-    for k in range(1,50):
-        sudokuGen(i)
-#sudokuGen(64)
+#for i in range(10,lim,5):
+ #   print(f"running funciton for i = {i}")
+  #  for k in range(1,50):
+   #     sudokuGen(i)
+sudokuGen(10)
 
 #mylist = retrieveData('''SELECT removedCells,count(removedCells) FROM runs GROUP BY removedCells''',2)
 #print(mylist)
