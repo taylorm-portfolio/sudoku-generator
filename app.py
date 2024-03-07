@@ -20,6 +20,8 @@ renameDiary = {
 # Initialize the app
 app = Dash(__name__)
 
+server = app.server
+
 # App layout
 app.layout = html.Div([
     html.Div(children='Statistical Analysis of Sudoku Generator Program Runs'),
