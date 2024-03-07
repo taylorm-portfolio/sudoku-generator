@@ -3,12 +3,12 @@ from connectDB import retrieveData
 import sqlite3
 from solver import backtrackSolver
 import pandas as pd
-lim = 55
+lim = 50
 
-#for i in range(10,lim,5):
- #   print(f"running funciton for i = {i}")
-  #  for k in range(1,50):
-   #     sudokuGen(i)
+for i in range(10,lim):
+    print(f"running funciton for i = {i}")
+    for k in range(1,40):
+        sudokuGen(i)
 sudokuGen(10)
 
 #mylist = retrieveData('''SELECT removedCells,count(removedCells) FROM runs GROUP BY removedCells''',2)
