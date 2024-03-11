@@ -35,10 +35,10 @@ app.layout = html.Div([
     #dcc.Dropdown(['New York City', 'Montréal', 'San Francisco'], 'Montréal',multi=True),
     dcc.RangeSlider(1,64,5,value=[1,64],id='page_slider'),
     #dcc.RadioItems(options=['pop', 'lifeExp', 'gdpPercap'], value='lifeExp', id='controls-and-radio-item'),
-    dash_table.DataTable(data=df1.to_dict('records'), columns=[{"name": renameDiary[i], "id": i} for i in df1.columns], page_size=10, id='data_table',
-        filter_action="native"),
+    dcc.Graph(figure={},id='puzzle_runs_graph'),# id='controls-and-graph')
     dcc.Graph(figure={},id='sln_runs_graph'),# id='controls-and-graph')
-    dcc.Graph(figure={},id='puzzle_runs_graph')# id='controls-and-graph')
+    dash_table.DataTable(data=df1.to_dict('records'), columns=[{"name": renameDiary[i], "id": i} for i in df1.columns], page_size=10, id='data_table',
+        filter_action="native")
 ])
 
 @app.callback(
