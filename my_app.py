@@ -55,19 +55,31 @@ app = Dash(__name__)
 server = app.server
 
 # App layout
-app.layout = html.Div([
-    html.Div(children='Statistical Analysis of Sudoku Generator Program Runs'),
-    html.Hr(),
+
+#app.layout = html.Div(className='row', children=[
+#    html.H1("Graphs Side by Side"),
+    #dcc.Graph(id="graph1", style={'display': 'inline-block'}),
+    #dcc.Graph(id="graph2", style={'display': 'inline-block'})
+#])
+styleDiary = {
+    'fontFamily': 'optima'
+}
+app.layout = html.Div(style=styleDiary,children=[
+    html.H1('Statistical Analysis of Sudoku Generator Program Runs'),
     #dcc.Dropdown(['New York City', 'Montréal', 'San Francisco'], 'Montréal',multi=True),
     dcc.RangeSlider(1,64,5,value=[1,64],id='page_slider'),
-    #dcc.RadioItems(options=['pop', 'lifeExp', 'gdpPercap'], value='lifeExp', id='controls-and-radio-item'),
-    dcc.Graph(figure={},id='puzzle_runs_graph'),
-    dcc.Graph(figure={},id='sln_runs_graph'),
-    dcc.Graph(figure={},id='puzzle_time_graph'),
-    dcc.Graph(figure={},id='sln_time_graph'),
-    dash_table.DataTable(data=dfPivot.to_dict('records'), columns=[{"name": renameDiary[i], "id": i} for i in dfPivot.columns], page_size=10, id='data_table',
-        filter_action="native")
-    
+    html.Div(children=[
+        html.Div(children=[
+            dcc.Graph(figure={},id='puzzle_runs_graph'),
+            dcc.Graph(figure={},id='sln_runs_graph')
+        ], style={'flex':1}),
+        html.Div(children=[
+            dcc.Graph(figure={},id='puzzle_time_graph'),
+            dcc.Graph(figure={},id='sln_time_graph')
+        ], style={'flex':1})
+    ], style={'display': 'flex', 'flexDirection':'row'}),  
+    dash_table.DataTable(data=dfPivot.to_dict('records'),columns=[{"name": renameDiary[i], "id": i} for i in dfPivot.columns], page_size=10, id='data_table', filter_action="native")
+        
 ])
 
 @app.callback(
