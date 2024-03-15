@@ -1,6 +1,54 @@
 import random
 
-# this file contains a function to solve the sudoku challenge
+# FROM chat with Microsoft Copilot:
+
+def is_unique(board):
+    find = find_empty(board)
+    if not find:
+        return 1
+    else:
+        row, col = find
+
+    count = 0
+    for i in range(1,10):
+        if valid(board, i, (row, col)):
+            board[row][col] = i
+            count += is_unique(board)
+            board[row][col] = ""
+
+    return count
+
+def valid(board, num, pos):
+    # Check row
+    for i in range(len(board[0])):
+        if board[pos[0]][i] == num and pos[1] != i:
+            return False
+
+    # Check column
+    for i in range(len(board)):
+        if board[i][pos[1]] == num and pos[0] != i:
+            return False
+
+    # Check box
+    box_x = pos[1] // 3
+    box_y = pos[0] // 3
+
+    for i in range(box_y*3, box_y*3 + 3):
+        for j in range(box_x * 3, box_x*3 + 3):
+            if board[i][j] == num and (i,j) != pos:
+                return False
+
+    return True
+
+def find_empty(board):
+    for i in range(len(board)):
+        for j in range(len(board[0])):
+            if board[i][j] == "":
+                return (i, j)  # row, col
+
+    return None
+
+# BELOW is a set of functions to solve the sudoku challenge - unused for now, but I am saving them in this repository for possible later use.
 # the functions are based on the article by Seng Kuang Yap at the below link
 # https://www.linkedin.com/pulse/creating-sudoku-solver-using-python-backtracking-algorithm-yap-tauof/
 # from sudoku import puzzleGenerator
@@ -62,51 +110,3 @@ def backtrackSolver(board):
                 return True
             board[empty[0]][empty[1]] = 0
     return False
-
-# FROM AI:
-
-def is_unique(board):
-    find = find_empty(board)
-    if not find:
-        return 1
-    else:
-        row, col = find
-
-    count = 0
-    for i in range(1,10):
-        if valid(board, i, (row, col)):
-            board[row][col] = i
-            count += is_unique(board)
-            board[row][col] = ""
-
-    return count
-
-def valid(board, num, pos):
-    # Check row
-    for i in range(len(board[0])):
-        if board[pos[0]][i] == num and pos[1] != i:
-            return False
-
-    # Check column
-    for i in range(len(board)):
-        if board[i][pos[1]] == num and pos[0] != i:
-            return False
-
-    # Check box
-    box_x = pos[1] // 3
-    box_y = pos[0] // 3
-
-    for i in range(box_y*3, box_y*3 + 3):
-        for j in range(box_x * 3, box_x*3 + 3):
-            if board[i][j] == num and (i,j) != pos:
-                return False
-
-    return True
-
-def find_empty(board):
-    for i in range(len(board)):
-        for j in range(len(board[0])):
-            if board[i][j] == "":
-                return (i, j)  # row, col
-
-    return None

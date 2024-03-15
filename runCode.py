@@ -1,8 +1,13 @@
+# This file is for running tests and iterations of my sudokuGen function (or other snippets of code)
+
 from sudoku import sudokuGen
 from connectDB import retrieveData
 import sqlite3
 from solver import backtrackSolver
 import pandas as pd
+from dash import Dash, html, dash_table, dcc, callback, Output, Input
+import plotly.express as px
+
 lim = 50
 
 #for i in range(10,lim):
@@ -32,3 +37,53 @@ board = [
 #print(df)
 #df.to_csv('puzzlesolved.csv', index=False)
 
+# Import packages
+
+# Incorporate data
+
+con = sqlite3.connect('sudokustats.db')
+
+df = pd.read_sql_query('SELECT runID, runDate, runCountSolution, runTimeSolution, runCountPuzzle, runTimePuzzle, runTimeOverall, removedCells FROM runs WHERE runDate = \'2024-03-11\'',con)
+renameDiary = {
+    'runID': 'Run ID',
+    'runDate': 'Date Generator Run',
+    'runCountSolution': 'Runs to Generate Solution',
+    'runTimeSolution': 'Time (ms) to Generate Solution',
+    'runCountPuzzle': 'Runs to Generate Puzzle',
+    'runTimePuzzle': 'Time (ms) to Generate Puzzle',
+    'runTimeOverall': 'Time (ms) to Run Entire Generator',
+    'removedCells': 'Qty Removed Cells',
+    'count(runID)': '# of Runs',
+    'round(avg(runCountSolution),2)': 'Avg # of Runs to Generate Solution',
+    'round(avg(runCountPuzzle),2)': 'Avg # of Runs to Generate Puzzle',
+    
+}
+#df.close.rolling(5).mean()
+dfPivotMA = pd.pivot_table(
+    df, index=['removedCells','runID'],
+    values=[
+        'runCountSolution',
+        'runCountPuzzle',
+        'runTimePuzzle',
+        'runTimeSolution',
+        'runTimeOverall'
+        ],
+    aggfunc={
+        'runCountSolution':'mean',
+        'runCountPuzzle': 'mean',
+        'runTimePuzzle': 'mean',
+        'runTimeSolution': 'mean',
+        'runTimeOverall': 'mean'
+        }
+    ).reset_index(drop = False).round({
+        'runCountSolution': 2,
+        'runCountPuzzle': 2,
+        'runTimePuzzle': 6,
+        'runTimeSolution': 6,
+        'runTimeOverall': 6
+    })
+print(dfPivotMA)
+dfPivotMA['SlnMA5'] = dfPivotMA.runCountSolution.rolling(5).mean()
+dfPivotMA['SlnMA15'] = dfPivotMA.runCountSolution.rolling(20).mean()
+
+print(dfPivotMA)

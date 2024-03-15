@@ -1,13 +1,12 @@
-
+# This file is the bulk of my program, the sudokuGen function. It calls several other functions which are imported below.
 import pandas as pd
 import random
 from datetime import date
 import time
 import copy
-#import pymysql
-from blankGrid import blankGrid
-from gridDiary import gridDiary
-from indexRef import indexRef
+from gridFunctions import blankGrid
+from gridFunctions import gridDiary
+from gridFunctions import indexRef
 from connectDB import createTable
 from connectDB import addRowDB
 from connectDB import getLastID
@@ -15,11 +14,12 @@ from solver import is_unique
 from exportExcel import saveExcel
 import os
 import sys
+
 def sudokuGen(removeN):
     original_stdout = sys.stdout
     sys.stdout = open(os.devnull, 'w')
-    # Get date and time Info
-
+    
+    # Get date and time info for the current run.su
     runStartOverall = time.time()
     runDate = date.today()
 

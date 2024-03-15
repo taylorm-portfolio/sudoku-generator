@@ -1,7 +1,7 @@
 import pandas as pd
 import random
 
-# Print a 9x9 list of unique single-digit integers as a learning experience
+# Print a 9x9 list of unique single-digit integers as a learning experience before moving on to full sudoku grid
 optionsList = [1,2,3,4,5,6,7,8,9]
 table = [[0,0,0],[0,0,0],[0,0,0]]
 j=2
